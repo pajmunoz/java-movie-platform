@@ -2,21 +2,20 @@ package test;
 
 import test.contenido.Pelicula;
 import test.plataforma.Plataforma;
-import test.plataforma.Usuario;
 import test.util.ScannerUtils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Scanner;
+import java.util.List;
 
 public class Main {
     public static final String NOMBRE_PLATAFORMA = "App play";
     public static final String VERSION = "1.0.0"; //constantes deben ser MAYUSCULAS, "final" = palabra reservada para inmutables
-    public static final int SALIR = 5;
     public static final int AGREGAR = 1;
     public static final int MOSTRAR_TODO = 2;
     public static final int BUSCAR_POR_TITULO = 3;
-    public static final int ELIMINAR = 4;
+    public static final int BUSCAR_POR_GENERO = 4;
+    public static final int ELIMINAR = 8;
+    public static final int SALIR = 9;
+
 
     public static void main(String[] args) {
         Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
@@ -30,8 +29,9 @@ public class Main {
                     1. Agregar contenido
                     2. Mostrar todo
                     3. Buscar por titulo
-                    4. Eliminar
-                    5. Salir
+                    4. Buscar por genero
+                    8. Eliminar
+                    9. Salir
                     """);
 
             System.out.println("opcion elegida: " + opcionelegida);
@@ -57,6 +57,17 @@ public class Main {
                         System.out.println(pelicula.obtenerFichaTecnica());
                     } else {
                         System.out.println("No existe el contenido para " + nombreBuscado);
+                    }
+                }
+                case BUSCAR_POR_GENERO -> {
+                    String generoBuscado = ScannerUtils.capturarTexto("Cual es el genero del contenido?");
+                    List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
+
+                    if (contenidoPorGenero != null) {
+                        System.out.println("\n" + "Se encontraron " + contenidoPorGenero.size() +" peliculas para el genero de " + generoBuscado + "\n");
+                        contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()+"\n"));
+                    } else {
+                        System.out.println("No existe el genero para " + generoBuscado);
                     }
                 }
                 case ELIMINAR -> {

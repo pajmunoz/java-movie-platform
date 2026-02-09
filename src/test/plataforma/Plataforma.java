@@ -26,9 +26,10 @@ public class Plataforma {
         if (this.contenido.isEmpty()) {
             System.out.println("No existen peliculas en la base de datos");
         } else {
-            for (Pelicula pelicula : contenido) {//reccorrer elementos de lista con FOR
+            /*for (Pelicula pelicula : contenido) {//reccorrer elementos de lista con FOR
                 System.out.println("-"+pelicula.getTitulo());
-            }
+            }*/
+            contenido.forEach(pelicula -> System.out.println("-" + pelicula.getTitulo())); //usando forEach y lambda (->)
         }
     }
 
@@ -37,12 +38,24 @@ public class Plataforma {
     }
 
     public Pelicula buscarPorTitulo(String titulo) {
-        for (Pelicula pelicula : contenido) {
+        /*for (Pelicula pelicula : contenido) {
             if (pelicula.getTitulo().equalsIgnoreCase(titulo)) {
                 return pelicula;
             }
-        }
-        return null;
+        }*/
+
+        return contenido.stream(). //Stream permite tomar elementos y aplicar condicionales a cada uno
+                filter(contenido -> contenido.getTitulo().equalsIgnoreCase(titulo))//si el valor ingresado corresponde a uno de la lista
+                .findFirst()//tomamos el primer valor de la lista
+                .orElse(null);//si no coincide retornar null
+
+        /*return null;*/
+    }
+    public List<Pelicula> buscarPorGenero(String genero) {
+        return contenido.stream()
+                .filter(contenido -> contenido.getGenero()
+                .equalsIgnoreCase(genero))
+                .toList();
     }
 
     public String getNombre() {
