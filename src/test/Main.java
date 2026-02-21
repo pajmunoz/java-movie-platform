@@ -13,6 +13,9 @@ public class Main {
     public static final int MOSTRAR_TODO = 2;
     public static final int BUSCAR_POR_TITULO = 3;
     public static final int BUSCAR_POR_GENERO = 4;
+    public static final int VER_POPULARES = 5;
+    public static final int VER_MUY_POPULARES = 6;
+    public static final int VER_DURACION = 7;
     public static final int ELIMINAR = 8;
     public static final int SALIR = 9;
 
@@ -21,6 +24,7 @@ public class Main {
         Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
         System.out.println(NOMBRE_PLATAFORMA + VERSION);
         cargarPeliculas(plataforma);
+        System.out.println("Mas de " + plataforma.getDuracionTotal() + " minutos de entretenimiento \n");
 
         while (true) {
             int opcionelegida = ScannerUtils.capturarNumero("""
@@ -30,6 +34,9 @@ public class Main {
                     2. Mostrar todo
                     3. Buscar por titulo
                     4. Buscar por genero
+                    5. Ver Populares
+                    6. Ver Muy Populares
+                    7. Ver por duracion
                     8. Eliminar
                     9. Salir
                     """);
@@ -47,7 +54,8 @@ public class Main {
                     plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
                 }
                 case MOSTRAR_TODO -> {
-                    plataforma.mostrarTitulos();
+                    List<String> titulos = plataforma.getTitulos();
+                    titulos.forEach(System.out::println); //titulo -> System.out.println(titulo) <---- lo mismo (metodo de referencia)
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturarTexto("Cual es el nombre del contenido?");
@@ -64,10 +72,37 @@ public class Main {
                     List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
 
                     if (contenidoPorGenero != null) {
-                        System.out.println("\n" + "Se encontraron " + contenidoPorGenero.size() +" peliculas para el genero de " + generoBuscado + "\n");
-                        contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()+"\n"));
+                        System.out.println("\n" + "Se encontraron " + contenidoPorGenero.size() + " peliculas para el genero de " + generoBuscado + "\n");
+                        contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                     } else {
                         System.out.println("No existe el genero para " + generoBuscado);
+                    }
+                }
+                case VER_POPULARES -> {
+                    List<Pelicula> contenidoPopulares = plataforma.getPopulares(5);
+                    System.out.println("Peliculas mas populares \n");
+                    contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
+                }
+
+                case VER_MUY_POPULARES -> {
+                    List<Pelicula> muyPulares = plataforma.getMuyPopulares();
+                    System.out.println("Peliculas mas muy populares \n");
+                    muyPulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
+                }
+                case VER_DURACION -> {
+                    int buscarDuracion = ScannerUtils.capturarNumero("""
+                            1. Ver de mayor duracion
+                            2. Ver de menor duracion""");
+                    switch (buscarDuracion) {
+                        case 1 -> {
+                            Pelicula peliculaLarga = plataforma.getMasLarga();
+                            System.out.println(peliculaLarga.obtenerFichaTecnica());
+                        }
+                        case 2 -> {
+                            Pelicula peliculaCorta = plataforma.getMasCorta();
+                            System.out.println(peliculaCorta.obtenerFichaTecnica());
+                        }
+
                     }
                 }
                 case ELIMINAR -> {
@@ -81,9 +116,8 @@ public class Main {
                     }
 
                 }
-                case SALIR -> {
-                    System.exit(0);//salir del ciclo
-                }
+                case SALIR -> System.exit(0);//salir del ciclo
+
             }
         }
 

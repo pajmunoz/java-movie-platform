@@ -3,6 +3,7 @@ package test.plataforma;
 import test.contenido.Pelicula;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Plataforma {
@@ -18,19 +19,25 @@ public class Plataforma {
         this.contenido.add(elemento);
     }
 
-    public void mostrarTitulos() {
-        System.out.println("""
+    public List<String> getTitulos() {
+        return contenido.stream().map(Pelicula::getTitulo) //contenido -> contenido.getTitulo() <---lo mismo
+                .toList();
+
+        /*System.out.println("""
                 
                 Peliculas en la base de datos:
                 """);
         if (this.contenido.isEmpty()) {
             System.out.println("No existen peliculas en la base de datos");
         } else {
-            /*for (Pelicula pelicula : contenido) {//reccorrer elementos de lista con FOR
+            for (Pelicula pelicula : contenido) {//reccorrer elementos de lista con FOR
                 System.out.println("-"+pelicula.getTitulo());
-            }*/
+            }
             contenido.forEach(pelicula -> System.out.println("-" + pelicula.getTitulo())); //usando forEach y lambda (->)
         }
+        */
+
+
     }
 
     public void eliminar(Pelicula pelicula) {
@@ -51,11 +58,34 @@ public class Plataforma {
 
         /*return null;*/
     }
+    public List<Pelicula> getMuyPopulares() {
+        return contenido.stream().filter(pelicula -> pelicula.getCalificacion() > 4).toList();
+    }
+
+    public Pelicula getMasLarga(){
+        return contenido.stream().max(Comparator.comparingInt(Pelicula::getDuracion))
+                .orElse(null);
+    }
+
+    public Pelicula getMasCorta(){
+        return contenido.stream().min(Comparator.comparingInt(Pelicula::getDuracion))
+                .orElse(null);
+    }
+
+
     public List<Pelicula> buscarPorGenero(String genero) {
         return contenido.stream()
                 .filter(contenido -> contenido.getGenero()
-                .equalsIgnoreCase(genero))
+                        .equalsIgnoreCase(genero))
                 .toList();
+    }
+
+    public List<Pelicula> getPopulares(int cantidad) {
+        return contenido.stream().sorted(Comparator.comparingDouble(Pelicula::getCalificacion).reversed()).limit(cantidad).toList();
+    }
+
+    public int getDuracionTotal() {
+        return contenido.stream().mapToInt(Pelicula::getDuracion).sum();
     }
 
     public String getNombre() {
