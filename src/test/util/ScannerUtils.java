@@ -1,5 +1,8 @@
 package test.util;
 
+import test.contenido.Genero;
+import test.contenido.Idioma;
+import test.contenido.Calidad;
 import java.util.Scanner;
 
 public class ScannerUtils {
@@ -34,5 +37,53 @@ public class ScannerUtils {
         double dato = SCANNER.nextDouble();
         SCANNER.nextLine();
         return dato;
+    }
+    public static Genero capturarGenero(String mensaje) {
+        while(true){
+            System.out.println(mensaje + " Opciones");
+            for(Genero genero : Genero.values()){
+                System.out.println("* " + genero.name());
+            }
+            System.out.println("Cual quieres?");
+            String entrada = SCANNER.nextLine();
+
+            try {
+                return Genero.valueOf(entrada.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Dato no aceptado " + mensaje + ": ");
+            }
+        }
+    }
+    public static Idioma capturarIdioma(String mensaje) {
+        while(true){
+            System.out.println(mensaje + " Opciones");
+            for(Idioma idioma : Idioma.values()){
+                System.out.println("* " + idioma.name());
+            }
+            System.out.println("Cual quieres?");
+            String entrada = SCANNER.nextLine();
+
+            try {
+                return Idioma.valueOf(entrada.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Dato no aceptado " + mensaje + ": ");
+            }
+        }
+    }
+    public static Calidad capturarCalidad(String mensaje) {
+        while(true){
+            System.out.println(mensaje + " Opciones");
+            for(Calidad calidad : Calidad.values()){
+                System.out.println("* " + calidad.name());
+            }
+            System.out.println("Cual quieres?");
+            String entrada = SCANNER.nextLine();
+
+            try {
+                return Calidad.valueOf(entrada.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Dato no aceptado " + mensaje + ": ");
+            }
+        }
     }
 }

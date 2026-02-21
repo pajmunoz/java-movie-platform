@@ -1,5 +1,6 @@
 package test.plataforma;
 
+import test.contenido.Genero;
 import test.contenido.Pelicula;
 
 import java.util.ArrayList;
@@ -73,10 +74,10 @@ public class Plataforma {
     }
 
 
-    public List<Pelicula> buscarPorGenero(String genero) {
+    public List<Pelicula> buscarPorGenero(Genero genero) {
         return contenido.stream()
                 .filter(contenido -> contenido.getGenero()
-                        .equalsIgnoreCase(genero))
+                        .equals(genero))
                 .toList();
     }
 

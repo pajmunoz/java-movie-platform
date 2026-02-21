@@ -1,8 +1,11 @@
 package test;
 
+import test.contenido.Genero;
 import test.contenido.Pelicula;
 import test.plataforma.Plataforma;
 import test.util.ScannerUtils;
+import test.contenido.Idioma;
+import test.contenido.Calidad;
 
 import java.util.List;
 
@@ -47,11 +50,13 @@ public class Main {
             switch (opcionelegida) {
                 case AGREGAR -> { //-> flecha operacion lambda
                     String nombre = ScannerUtils.capturarTexto("Cual es el nombre del contenido?");
-                    String genero = ScannerUtils.capturarTexto("Cual es el genero del contenido?");
+                    Genero genero = ScannerUtils.capturarGenero("Cual es el genero del contenido?");
                     int duracion = ScannerUtils.capturarNumero("Cual es el duracion del contenido?");
                     double calificacion = ScannerUtils.capturarDecimal("Cual es el calificacion del contenido?");
+                    Idioma idioma = ScannerUtils.capturarIdioma("Cual es el idioma del contenido?");  
+                    Calidad calidad = ScannerUtils.capturarCalidad("Cual es la calidad del contenido?");
 
-                    plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
+                    plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, idioma, calidad));
                 }
                 case MOSTRAR_TODO -> {
                     List<String> titulos = plataforma.getTitulos();
@@ -64,11 +69,11 @@ public class Main {
                         System.out.println("\n" + "Ficha tecnica de " + nombreBuscado + "\n");
                         System.out.println(pelicula.obtenerFichaTecnica());
                     } else {
-                        System.out.println("No existe el contenido para " + nombreBuscado);
+                        System.out.println("No existe el contenido para " + nombreBuscado); 
                     }
                 }
                 case BUSCAR_POR_GENERO -> {
-                    String generoBuscado = ScannerUtils.capturarTexto("Cual es el genero del contenido?");
+                    Genero generoBuscado = ScannerUtils.capturarGenero("Cual es el genero del contenido?");
                     List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
 
                     if (contenidoPorGenero != null) {
@@ -147,16 +152,16 @@ public class Main {
     }
 
     private static void cargarPeliculas(Plataforma plataforma) {
-        plataforma.agregar(new Pelicula("Shrek", 90, "Animacion", 2));
-        plataforma.agregar(new Pelicula("Batman", 120, "Accion", 3));
-        plataforma.agregar(new Pelicula("Superman", 200, "Accion", 4));
-        plataforma.agregar(new Pelicula("Spiderman", 210, "Accion", 5));
-        plataforma.agregar(new Pelicula("Inception", 160, "SCIFI", 2));
-        plataforma.agregar(new Pelicula("Coco", 180, "Animacion", 1));
-        plataforma.agregar(new Pelicula("Interestellar", 200, "SCIFI", 5));
-        plataforma.agregar(new Pelicula("Toy Story", 140, "Animacion", 4));
-        plataforma.agregar(new Pelicula("Avengers", 130, "Accion", 3));
-        plataforma.agregar(new Pelicula("Avatar", 215, "Animacion", 2));
+        plataforma.agregar(new Pelicula("Shrek", 90, Genero.ANIMADA, 2, Idioma.ESPANOL, Calidad.FULL_HD));
+        plataforma.agregar(new Pelicula("Batman", 120, Genero.ACCION, 3, Idioma.INGLES, Calidad.ULTRA_HD));
+        plataforma.agregar(new Pelicula("Superman", 200, Genero.ACCION, 4, Idioma.PORTUGUES, Calidad.FULL_HD));
+        plataforma.agregar(new Pelicula("Spiderman", 210, Genero.ACCION, 5, Idioma.FRANCES, Calidad.ULTRA_HD));
+        plataforma.agregar(new Pelicula("Inception", 160, Genero.SCIFI, 2, Idioma.ESPANOL, Calidad.FULL_HD));
+        plataforma.agregar(new Pelicula("Coco", 180, Genero.ANIMADA, 1, Idioma.INGLES, Calidad.ULTRA_HD));
+        plataforma.agregar(new Pelicula("Interestellar", 200, Genero.SCIFI, 5, Idioma.ESPANOL, Calidad.FULL_HD));
+        plataforma.agregar(new Pelicula("Toy Story", 140, Genero.ANIMADA, 4, Idioma.INGLES, Calidad.ULTRA_HD));
+        plataforma.agregar(new Pelicula("Avengers", 130, Genero.ACCION, 3, Idioma.PORTUGUES, Calidad.FULL_HD));
+        plataforma.agregar(new Pelicula("Avatar", 215, Genero.ANIMADA, 2, Idioma.FRANCES, Calidad.ULTRA_HD));
 
     }
 }

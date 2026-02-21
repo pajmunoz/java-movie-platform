@@ -6,24 +6,30 @@ public class Pelicula {
     private String titulo;
     private String descripcion;
     private int duracion;
-    private String genero;
+    private Genero genero;
     private LocalDate fechaEstreno;
     private double calificacion;
+    private Idioma idioma;
+    private Calidad calidad;
     private boolean disponible;
 
     //constructor, this hacer referencia a los parametros de mi CLase
-    public Pelicula(String titulo, int duracion, String genero) {
+    public Pelicula(String titulo, int duracion, Genero genero, Idioma idioma, Calidad calidad) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.genero = genero;
+        this.idioma = idioma;
+        this.calidad = calidad;
         this.fechaEstreno = LocalDate.now();
         this.disponible = true;
 
     }
 
-    public Pelicula(String titulo, int duracion, String genero, double calificacion) {
-       this(titulo, duracion, genero);
+    public Pelicula(String titulo, int duracion, Genero genero, double calificacion, Idioma idioma, Calidad calidad) {
+       this(titulo, duracion, genero, idioma, calidad); 
         this.calificacion = calificacion;
+        this.idioma = idioma;
+        this.calidad = calidad;
     }
 
     public void reproducir() {
@@ -33,7 +39,9 @@ public class Pelicula {
     public String obtenerFichaTecnica() {
         return titulo + " (" + fechaEstreno.getYear() + ")\n" +
                 "Género: " + genero + "\n" +
-                "Calificación: " + calificacion + "/5";
+                "Calificación: " + calificacion + "/5\n" +
+                "Idioma: " + idioma + "\n" +
+                "Calidad: " + calidad + "\n";
     }
 
     public void calificar(double calificacion) {
@@ -59,7 +67,7 @@ public class Pelicula {
         return duracion;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
