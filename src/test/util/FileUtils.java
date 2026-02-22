@@ -11,13 +11,13 @@ import java.util.List;
 import test.contenido.Calidad;
 import test.contenido.Genero;
 import test.contenido.Idioma;
-import test.contenido.Pelicula;
+import test.contenido.Contenido;
 
 public class FileUtils {
     public static final String SEPARADOR = "|";
     public static final String NOMBRE_ARCHIVO = "contenido.txt";
 
-    public static void escribirContenido(Pelicula contenido) {
+    public static void escribirContenido(Contenido contenido) {
         String linea = String.join(SEPARADOR, contenido.getTitulo(), String.valueOf(contenido.getDuracion()),
                 contenido.getGenero().name(), String.valueOf(contenido.getCalificacion()),
                 contenido.getIdioma().name(), contenido.getCalidad().name(),
@@ -33,8 +33,8 @@ public class FileUtils {
 
     }
 
-    public static List<Pelicula> leerContenido() {
-        List<Pelicula> contenidoDesdeArchivo = new ArrayList<>();
+    public static List<Contenido> leerContenido() {
+        List<Contenido> contenidoDesdeArchivo = new ArrayList<>();
         try {
             List<String> lineas = Files.readAllLines(Paths.get(NOMBRE_ARCHIVO));
             lineas.forEach(linea -> {
@@ -48,7 +48,7 @@ public class FileUtils {
                     Calidad calidad = Calidad.valueOf(datos[5].toUpperCase());
                     LocalDate fechaLanzamiento = LocalDate.parse(datos[6]);
 
-                    Pelicula pelicula = new Pelicula(titulo, duracion, genero, calificacion, idioma, calidad,
+                    Contenido pelicula = new Contenido(titulo, duracion, genero, calificacion, idioma, calidad,
                             fechaLanzamiento);
                     pelicula.setFechaEstreno(fechaLanzamiento);
 

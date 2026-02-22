@@ -1,7 +1,7 @@
 package test.plataforma;
 
 import test.contenido.Genero;
-import test.contenido.Pelicula;
+import test.contenido.Contenido;
 import test.contenido.ResumenContenido;
 import test.excepcion.PeliculaExistenteException;
 import test.util.FileUtils;
@@ -14,8 +14,8 @@ import java.util.Map;
 
 public class Plataforma {
     private String nombre;
-    private List<Pelicula> contenido;// relacion es AGEGACION: no dependen de la plataforma
-    private Map<Pelicula, Integer> visualizaciones;
+    private List<Contenido> contenido;// relacion es AGEGACION: no dependen de la plataforma
+    private Map<Contenido, Integer> visualizaciones;
 
     public Plataforma(String nombre) {
         this.nombre = nombre;
@@ -23,8 +23,8 @@ public class Plataforma {
         this.visualizaciones = new HashMap<>();
     }
 
-    public void agregar(Pelicula elemento) {
-        Pelicula contenido = this.buscarPorTitulo(elemento.getTitulo());
+    public void agregar(Contenido elemento) {
+        Contenido contenido = this.buscarPorTitulo(elemento.getTitulo());
         if (contenido != null) {
             throw new PeliculaExistenteException(elemento.getTitulo()); // throw lanza la excepcion
         }
@@ -32,20 +32,20 @@ public class Plataforma {
         this.contenido.add(elemento);
     }
 
-    public void reproducir(Pelicula contenido) {
+    public void reproducir(Contenido contenido) {
         int conteo = visualizaciones.getOrDefault(contenido, 0);
         System.out.println(contenido.getTitulo() + " se esta reproduciendo " + conteo + " veces");
         this.contarVisualizaciones(contenido);
         contenido.reproducir();
     }
 
-    private void contarVisualizaciones(Pelicula contenido) {
+    private void contarVisualizaciones(Contenido contenido) {
         int conteo = visualizaciones.getOrDefault(contenido, 0);
         visualizaciones.put(contenido, conteo + 1);
     }
 
     public List<String> getTitulos() {
-        return contenido.stream().map(Pelicula::getTitulo) // contenido -> contenido.getTitulo() <---lo mismo
+        return contenido.stream().map(Contenido::getTitulo) // contenido -> contenido.getTitulo() <---lo mismo
                 .toList();
 
         /*
@@ -73,11 +73,11 @@ public class Plataforma {
                 .toList();
     }
 
-    public void eliminar(Pelicula pelicula) {
+    public void eliminar(Contenido pelicula) {
         this.contenido.remove(pelicula);
     }
 
-    public Pelicula buscarPorTitulo(String titulo) {
+    public Contenido buscarPorTitulo(String titulo) {
         /*
          * for (Pelicula pelicula : contenido) {
          * if (pelicula.getTitulo().equalsIgnoreCase(titulo)) {
@@ -95,41 +95,41 @@ public class Plataforma {
         /* return null; */
     }
 
-    public List<Pelicula> getMuyPopulares() {
+    public List<Contenido> getMuyPopulares() {
         return contenido.stream().filter(pelicula -> pelicula.getCalificacion() > 4).toList();
     }
 
-    public Pelicula getMasLarga() {
-        return contenido.stream().max(Comparator.comparingInt(Pelicula::getDuracion))
+    public Contenido getMasLarga() {
+        return contenido.stream().max(Comparator.comparingInt(Contenido::getDuracion))
                 .orElse(null);
     }
 
-    public Pelicula getMasCorta() {
-        return contenido.stream().min(Comparator.comparingInt(Pelicula::getDuracion))
+    public Contenido getMasCorta() {
+        return contenido.stream().min(Comparator.comparingInt(Contenido::getDuracion))
                 .orElse(null);
     }
 
-    public List<Pelicula> buscarPorGenero(Genero genero) {
+    public List<Contenido> buscarPorGenero(Genero genero) {
         return contenido.stream()
                 .filter(contenido -> contenido.getGenero()
                         .equals(genero))
                 .toList();
     }
 
-    public List<Pelicula> getPopulares(int cantidad) {
-        return contenido.stream().sorted(Comparator.comparingDouble(Pelicula::getCalificacion).reversed())
+    public List<Contenido> getPopulares(int cantidad) {
+        return contenido.stream().sorted(Comparator.comparingDouble(Contenido::getCalificacion).reversed())
                 .limit(cantidad).toList();
     }
 
     public int getDuracionTotal() {
-        return contenido.stream().mapToInt(Pelicula::getDuracion).sum();
+        return contenido.stream().mapToInt(Contenido::getDuracion).sum();
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public List<Pelicula> getContenido() {
+    public List<Contenido> getContenido() {
         return contenido;
     }
 }

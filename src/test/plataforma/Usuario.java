@@ -1,6 +1,6 @@
 package test.plataforma;
 
-import test.contenido.Pelicula;
+import test.contenido.Contenido;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +15,10 @@ public class Usuario {
     public Usuario(String nombre, String email) {
         this.nombre = nombre;
         this.email = email;
-        this.fechaRegistro = LocalDateTime.of(2025,12,24,17,15,14);
+        this.fechaRegistro = LocalDateTime.of(2025, 12, 24, 17, 15, 14);
     }
 
-    public void ver(Pelicula pelicula){
+    public void ver(Contenido pelicula) {
         System.out.println(nombre + " esta viendo..." + pelicula.getTitulo());
         pelicula.reproducir();
     }
