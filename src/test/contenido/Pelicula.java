@@ -13,7 +13,7 @@ public class Pelicula {
     private Calidad calidad;
     private boolean disponible;
 
-    //constructor, this hacer referencia a los parametros de mi CLase
+    // constructor, this hacer referencia a los parametros de mi CLase
     public Pelicula(String titulo, int duracion, Genero genero, Idioma idioma, Calidad calidad) {
         this.titulo = titulo;
         this.duracion = duracion;
@@ -26,10 +26,25 @@ public class Pelicula {
     }
 
     public Pelicula(String titulo, int duracion, Genero genero, double calificacion, Idioma idioma, Calidad calidad) {
-       this(titulo, duracion, genero, idioma, calidad); 
+        this(titulo, duracion, genero, idioma, calidad);
         this.calificacion = calificacion;
         this.idioma = idioma;
         this.calidad = calidad;
+    }
+
+    public Pelicula(String titulo, int duracion, Genero genero, double calificacion, Idioma idioma, Calidad calidad,
+            LocalDate fechaEstreno) {
+        this(titulo, duracion, genero, calificacion, idioma, calidad);
+        this.fechaEstreno = fechaEstreno;
+    }
+
+    public Pelicula(String titulo, int duracion, Genero genero, double calificacion, LocalDate fechaEstreno) {
+        this.titulo = titulo;
+        this.duracion = duracion;
+        this.genero = genero;
+        this.calificacion = calificacion;
+        this.fechaEstreno = fechaEstreno;
+        this.disponible = true;
     }
 
     public void reproducir() {

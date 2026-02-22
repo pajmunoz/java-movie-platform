@@ -5,10 +5,15 @@ import test.contenido.Pelicula;
 import test.contenido.ResumenContenido;
 import test.excepcion.PeliculaExistenteException;
 import test.plataforma.Plataforma;
+import test.util.FileUtils;
 import test.util.ScannerUtils;
 import test.contenido.Idioma;
 import test.contenido.Calidad;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
@@ -183,16 +188,30 @@ public class Main {
     }
 
     private static void cargarPeliculas(Plataforma plataforma) {
-        plataforma.agregar(new Pelicula("Shrek", 90, Genero.ANIMADA, 2, Idioma.ESPANOL, Calidad.FULL_HD));
-        plataforma.agregar(new Pelicula("Batman", 120, Genero.ACCION, 3, Idioma.INGLES, Calidad.ULTRA_HD));
-        plataforma.agregar(new Pelicula("Superman", 200, Genero.ACCION, 4, Idioma.PORTUGUES, Calidad.FULL_HD));
-        plataforma.agregar(new Pelicula("Spiderman", 210, Genero.ACCION, 5, Idioma.FRANCES, Calidad.ULTRA_HD));
-        plataforma.agregar(new Pelicula("Inception", 160, Genero.SCIFI, 2, Idioma.ESPANOL, Calidad.FULL_HD));
-        plataforma.agregar(new Pelicula("Coco", 180, Genero.ANIMADA, 1, Idioma.INGLES, Calidad.ULTRA_HD));
-        plataforma.agregar(new Pelicula("Interestellar", 200, Genero.SCIFI, 5, Idioma.ESPANOL, Calidad.FULL_HD));
-        plataforma.agregar(new Pelicula("Toy Story", 140, Genero.ANIMADA, 4, Idioma.INGLES, Calidad.ULTRA_HD));
-        plataforma.agregar(new Pelicula("Avengers", 130, Genero.ACCION, 3, Idioma.PORTUGUES, Calidad.FULL_HD));
-        plataforma.agregar(new Pelicula("Avatar", 215, Genero.ANIMADA, 2, Idioma.FRANCES, Calidad.ULTRA_HD));
+        plataforma.getContenido().addAll(FileUtils.leerContenido());
+
+        /*
+         * plataforma.agregar(new Pelicula("Shrek", 90, Genero.ANIMADA, 2,
+         * Idioma.ESPANOL, Calidad.FULL_HD));
+         * plataforma.agregar(new Pelicula("Batman", 120, Genero.ACCION, 3,
+         * Idioma.INGLES, Calidad.ULTRA_HD));
+         * plataforma.agregar(new Pelicula("Superman", 200, Genero.ACCION, 4,
+         * Idioma.PORTUGUES, Calidad.FULL_HD));
+         * plataforma.agregar(new Pelicula("Spiderman", 210, Genero.ACCION, 5,
+         * Idioma.FRANCES, Calidad.ULTRA_HD));
+         * plataforma.agregar(new Pelicula("Inception", 160, Genero.SCIFI, 2,
+         * Idioma.ESPANOL, Calidad.FULL_HD));
+         * plataforma.agregar(new Pelicula("Coco", 180, Genero.ANIMADA, 1,
+         * Idioma.INGLES, Calidad.ULTRA_HD));
+         * plataforma.agregar(new Pelicula("Interestellar", 200, Genero.SCIFI, 5,
+         * Idioma.ESPANOL, Calidad.FULL_HD));
+         * plataforma.agregar(new Pelicula("Toy Story", 140, Genero.ANIMADA, 4,
+         * Idioma.INGLES, Calidad.ULTRA_HD));
+         * plataforma.agregar(new Pelicula("Avengers", 130, Genero.ACCION, 3,
+         * Idioma.PORTUGUES, Calidad.FULL_HD));
+         * plataforma.agregar(new Pelicula("Avatar", 215, Genero.ANIMADA, 2,
+         * Idioma.FRANCES, Calidad.ULTRA_HD));
+         */
 
     }
 }
