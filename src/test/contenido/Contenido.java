@@ -2,7 +2,7 @@ package test.contenido;
 
 import java.time.LocalDate;
 
-public class Contenido {
+public abstract class Contenido { // abstract = no se puede crear un objeto de tipo contenido
     private String titulo;
     private String descripcion;
     private int duracion;
@@ -47,9 +47,7 @@ public class Contenido {
         this.disponible = true;
     }
 
-    public void reproducir() {
-        System.out.println("reproduciendo " + titulo);
-    }
+    public abstract void reproducir(); // abstract = no se puede crear un objeto de tipo contenido, no tiene cuerpo
 
     public String obtenerFichaTecnica() {
         return titulo + " (" + fechaEstreno.getYear() + ")\n" +

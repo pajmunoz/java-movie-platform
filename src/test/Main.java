@@ -25,8 +25,9 @@ public class Main {
     public static final int VER_MUY_POPULARES = 6;
     public static final int VER_DURACION = 7;
     public static final int REPRODUCIR = 8;
-    public static final int ELIMINAR = 9;
-    public static final int SALIR = 10;
+    public static final int BUSCAR_POR_TIPO = 9;
+    public static final int ELIMINAR = 10;
+    public static final int SALIR = 11;
 
     public static void main(String[] args) {
         Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
@@ -46,8 +47,9 @@ public class Main {
                     6. Ver Muy Populares
                     7. Ver por duracion
                     8. Reproducir
-                    9. Eliminar
-                    10. Salir
+                    9. Buscar por tipo
+                    10. Eliminar
+                    11. Salir
                     """);
 
             System.out.println("opcion elegida: " + opcionelegida);
@@ -62,6 +64,7 @@ public class Main {
                     double calificacion = ScannerUtils.capturarDecimal("Cual es el calificacion del contenido?");
                     Idioma idioma = ScannerUtils.capturarIdioma("Cual es el idioma del contenido?");
                     Calidad calidad = ScannerUtils.capturarCalidad("Cual es la calidad del contenido?");
+
                     try {
                         if (tipoDeContenido == 1) {
                             plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, idioma, calidad));
@@ -133,11 +136,22 @@ public class Main {
 
                     }
                 }
+                case BUSCAR_POR_TIPO -> {
+                    int tipoDeContenido = ScannerUtils
+                            .capturarNumero("Que tipo de contenido deseas buscar? \n 1. Pelicula \n 2. Documental");
+                    if (tipoDeContenido == 1) {
+                        List<Pelicula> peliculas = plataforma.getPeliculas();
+                        peliculas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
+                    } else {
+                        List<Documental> documentales = plataforma.getDocumentales();
+                        documentales.forEach(documental -> System.out.println(documental.obtenerFichaTecnica() + "\n"));
+                    }
+                }
                 case REPRODUCIR -> {
-                    String nombreReproducir = ScannerUtils.capturarTexto("Que pelicula quiere reproducir?");
-                    Contenido pelicula = plataforma.buscarPorTitulo(nombreReproducir);
-                    if (pelicula != null) {
-                        plataforma.reproducir(pelicula);
+                    String nombreReproducir = ScannerUtils.capturarTexto("Que contenido quiere reproducir?");
+                    Contenido contenido = plataforma.buscarPorTitulo(nombreReproducir);
+                    if (contenido != null) {
+                        plataforma.reproducir(contenido);
                     } else {
                         System.out.println("No existe el contenido para " + nombreReproducir);
                     }

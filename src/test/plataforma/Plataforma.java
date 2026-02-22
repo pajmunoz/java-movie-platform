@@ -1,7 +1,9 @@
 package test.plataforma;
 
+import test.contenido.Pelicula;
 import test.contenido.Genero;
 import test.contenido.Contenido;
+import test.contenido.Documental;
 import test.contenido.ResumenContenido;
 import test.excepcion.PeliculaExistenteException;
 import test.util.FileUtils;
@@ -119,6 +121,18 @@ public class Plataforma {
     public List<Contenido> getPopulares(int cantidad) {
         return contenido.stream().sorted(Comparator.comparingDouble(Contenido::getCalificacion).reversed())
                 .limit(cantidad).toList();
+    }
+
+    public List<Pelicula> getPeliculas() {
+        return contenido.stream().filter(contenido -> contenido instanceof Pelicula)
+                .map(contenido -> (Pelicula) contenido)
+                .toList();
+    }
+
+    public List<Documental> getDocumentales() {
+        return contenido.stream().filter(contenido -> contenido instanceof Documental)
+                .map(contenido -> (Documental) contenido)
+                .toList();
     }
 
     public int getDuracionTotal() {

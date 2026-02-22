@@ -11,7 +11,9 @@ import java.util.List;
 import test.contenido.Calidad;
 import test.contenido.Genero;
 import test.contenido.Idioma;
+import test.contenido.Pelicula;
 import test.contenido.Contenido;
+import test.contenido.Documental;
 
 public class FileUtils {
     public static final String SEPARADOR = "|";
@@ -22,10 +24,17 @@ public class FileUtils {
                 contenido.getGenero().name(), String.valueOf(contenido.getCalificacion()),
                 contenido.getIdioma().name(), contenido.getCalidad().name(),
                 contenido.getFechaEstreno().toString());
+        String lineaFinal;
+
+        if (contenido instanceof Documental documental) { // instanceof = pregunta si es de tipo documental
+            lineaFinal = "DOCUMENTAL" + SEPARADOR + linea + SEPARADOR + documental.getNarrador();
+        } else {
+            lineaFinal = "PELICULA" + SEPARADOR + linea;
+        }
         try {
 
             Files.writeString(Paths.get(NOMBRE_ARCHIVO),
-                    linea + System.lineSeparator(),
+                    lineaFinal + System.lineSeparator(),
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println("Error al escribir el contenido: " + e.getMessage());
@@ -39,20 +48,27 @@ public class FileUtils {
             List<String> lineas = Files.readAllLines(Paths.get(NOMBRE_ARCHIVO));
             lineas.forEach(linea -> {
                 String[] datos = linea.split("\\" + SEPARADOR);
-                if (datos.length == 7) {
-                    String titulo = datos[0];
-                    int duracion = Integer.parseInt(datos[1]);
-                    Genero genero = Genero.valueOf(datos[2].toUpperCase());
-                    double calificacion = datos[3].isBlank() ? 0.0 : Double.parseDouble(datos[3]);
-                    Idioma idioma = Idioma.valueOf(datos[4].toUpperCase());
-                    Calidad calidad = Calidad.valueOf(datos[5].toUpperCase());
-                    LocalDate fechaLanzamiento = LocalDate.parse(datos[6]);
+                String tipoContenido = datos[0];
+                if (("PELICULA".equals(tipoContenido) && datos.length == 8)
+                        || ("DOCUMENTAL".equals(tipoContenido) && datos.length == 9)) {
+                    String titulo = datos[1];
+                    int duracion = Integer.parseInt(datos[2]);
+                    Genero genero = Genero.valueOf(datos[3].toUpperCase());
+                    double calificacion = datos[4].isBlank() ? 0.0 : Double.parseDouble(datos[4]);
+                    Idioma idioma = Idioma.valueOf(datos[5].toUpperCase());
+                    Calidad calidad = Calidad.valueOf(datos[6].toUpperCase());
+                    LocalDate fechaLanzamiento = LocalDate.parse(datos[7]);
 
-                    Contenido pelicula = new Contenido(titulo, duracion, genero, calificacion, idioma, calidad,
-                            fechaLanzamiento);
-                    pelicula.setFechaEstreno(fechaLanzamiento);
+                    Contenido contenido;
+                    if ("PELICULA".equals(tipoContenido)) {
+                        contenido = new Pelicula(titulo, duracion, genero, calificacion, idioma, calidad);
+                    } else {
+                        String narrador = datos[8]; // Narrator is now at index 8
+                        contenido = new Documental(titulo, duracion, genero, calificacion, idioma, calidad, narrador);
+                    }
+                    contenido.setFechaEstreno(fechaLanzamiento);
+                    contenidoDesdeArchivo.add(contenido);
 
-                    contenidoDesdeArchivo.add(pelicula);
                 }
             });
         } catch (IOException e) {
