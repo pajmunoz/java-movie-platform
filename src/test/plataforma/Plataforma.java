@@ -4,6 +4,7 @@ import test.contenido.Genero;
 import test.contenido.Pelicula;
 import test.contenido.ResumenContenido;
 import test.excepcion.PeliculaExistenteException;
+import test.util.FileUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,6 +28,7 @@ public class Plataforma {
         if (contenido != null) {
             throw new PeliculaExistenteException(elemento.getTitulo()); // throw lanza la excepcion
         }
+        FileUtils.escribirContenido(elemento);
         this.contenido.add(elemento);
     }
 

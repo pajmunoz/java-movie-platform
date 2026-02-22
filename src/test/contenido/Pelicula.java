@@ -98,6 +98,14 @@ public class Pelicula {
         return disponible;
     }
 
+    public Idioma getIdioma() {
+        return idioma;
+    }
+
+    public Calidad getCalidad() {
+        return calidad;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
